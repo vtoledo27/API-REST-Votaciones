@@ -1,0 +1,504 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API-REST",
+    "description": "Esta API permitira a los alumnos de la UTEM realizar votaciones",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/vtoledo27/Api-rest/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "paths": {
+    "/v1/voter/vote": {
+      "post": {
+        "tags": [
+          "vote-rest"
+        ],
+        "operationId": "requestToken",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VoteVO"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/request": {
+      "post": {
+        "tags": [
+          "auth-rest"
+        ],
+        "operationId": "requestToken_1",
+        "parameters": [
+          {
+            "name": "X-API-TOKEN",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-API-KEY",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCode"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/voter/{pollToken}/results": {
+      "get": {
+        "tags": [
+          "vote-rest"
+        ],
+        "operationId": "results",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pollToken",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResultVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/voter/polls": {
+      "get": {
+        "tags": [
+          "vote-rest"
+        ],
+        "operationId": "polls",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PollVO"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/callback/verify": {
+      "get": {
+        "tags": [
+          "callback-rest"
+        ],
+        "operationId": "verifyToken",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "error",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/{token}/result": {
+      "get": {
+        "tags": [
+          "auth-rest"
+        ],
+        "operationId": "getResult",
+        "parameters": [
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/{token}/jwt": {
+      "get": {
+        "tags": [
+          "auth-rest"
+        ],
+        "operationId": "getJwt",
+        "parameters": [
+          {
+            "name": "X-API-TOKEN",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-API-KEY",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "path",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JwtVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/auth/login": {
+      "get": {
+        "tags": [
+          "auth-rest"
+        ],
+        "operationId": "requestToken_2",
+        "parameters": [
+          {
+            "name": "X-API-TOKEN",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "X-API-KEY",
+            "in": "header",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenVO"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "VoteVO": {
+        "type": "object",
+        "properties": {
+          "pollToken": {
+            "type": "string"
+          },
+          "selection": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ResponseVO": {
+        "type": "object",
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "RequestCode": {
+        "required": [
+          "failedUrl",
+          "successUrl"
+        ],
+        "type": "object",
+        "properties": {
+          "successUrl": {
+            "type": "string",
+            "description": "Url de redirección en caso de una autenticación exitosa a esta url se le agregará un parámetro jwt con la información de la autenticación"
+          },
+          "failedUrl": {
+            "type": "string",
+            "description": "Url de redirección en caso de una autenticación fallida"
+          }
+        }
+      },
+      "TokenVO": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "redirectUrl": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CountVO": {
+        "type": "object",
+        "properties": {
+          "choice": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "ResultVO": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CountVO"
+            }
+          }
+        }
+      },
+      "DetailVO": {
+        "type": "object",
+        "properties": {
+          "selection": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "choice": {
+            "type": "string"
+          }
+        }
+      },
+      "PollVO": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/DetailVO"
+            }
+          }
+        }
+      },
+      "JwtVO": {
+        "required": [
+          "created",
+          "jwt"
+        ],
+        "type": "object",
+        "properties": {
+          "jwt": {
+            "type": "string",
+            "description": "JWT con la información del usuario autenticado"
+          },
+          "created": {
+            "type": "string",
+            "description": "Fecha de creación de la respuesta",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  }
+}
